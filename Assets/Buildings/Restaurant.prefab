@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8728381879404050744}
   - component: {fileID: 2937050543857710917}
+  - component: {fileID: 9191012260673165647}
   m_Layer: 0
   m_Name: Restaurant
   m_TagString: Untagged
@@ -47,6 +48,27 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Size: {x: 1, y: 1}
   MainRender: {fileID: 2572292801321393975}
+--- !u!65 &9191012260673165647
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1501883702553231589}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 0.63, z: 1}
+  m_Center: {x: 0, y: 0.32, z: 0}
 --- !u!1001 &2572292801323419479
 PrefabInstance:
   m_ObjectHideFlags: 0
