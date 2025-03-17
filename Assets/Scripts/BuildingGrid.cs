@@ -7,6 +7,7 @@ public class BuildingGrid : MonoBehaviour
     private Building[,] grid;
     private Building flyingBuilding;
     private Camera mainCamera;
+    private bool _isDeleting = false;
 
     private void Awake()
     {
@@ -16,6 +17,13 @@ public class BuildingGrid : MonoBehaviour
 
     private void Update()
     {
+
+
+        if (_isDeleting && Input.GetMouseButtonDown(0))
+        {
+            TryDeleteBuilding();
+        }
+
         if (flyingBuilding != null)
         {
             var groundPlane = new Plane(Vector3.up, Vector3.zero);
@@ -23,16 +31,15 @@ public class BuildingGrid : MonoBehaviour
 
             if (groundPlane.Raycast(ray, out float position))
             {
-                Vector3 worldPositin = ray.GetPoint(position);
-
-                int x = Mathf.RoundToInt(worldPositin.x);
-                int y = Mathf.RoundToInt(worldPositin.z);
+                Vector3 worldPosition = ray.GetPoint(position);
+                int x = Mathf.RoundToInt(worldPosition.x);
+                int y = Mathf.RoundToInt(worldPosition.z);
 
                 bool available = true;
 
-                if (x < 0 || x > GridSize.x - flyingBuilding.Size.x) 
+                if (x < 0 || x > GridSize.x - flyingBuilding.Size.x)
                     available = false;
-                if (y < 0 || y > GridSize.y - flyingBuilding.Size.y) 
+                if (y < 0 || y > GridSize.y - flyingBuilding.Size.y)
                     available = false;
 
                 if (available && IsPlaceTaken(x, y))
@@ -81,4 +88,41 @@ public class BuildingGrid : MonoBehaviour
 
         flyingBuilding = Instantiate(buildingPrefab);
     }
+
+    private void TryDeleteBuilding()
+    {
+        Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit;
+
+        if (Physics.Raycast(ray, out hit))
+        {
+            Building building = hit.collider.GetComponent<Building>();
+            if (building != null)
+            {
+                RemoveBuilding(building);
+            }
+        }
+    }
+
+    private void RemoveBuilding(Building building)
+    {
+        Vector3 pos = building.transform.position;
+        int x = Mathf.RoundToInt(pos.x);
+        int y = Mathf.RoundToInt(pos.z);
+
+        for (int i = 0; i < building.Size.x; i++)
+        {
+            for (int j = 0; j < building.Size.y; j++)
+            {
+                grid[x + i, y + j] = null;
+            }
+        }
+        Destroy(building.gameObject);
+    }
+
+    public void StartDeletingMode(bool isDeleting)
+    {
+        _isDeleting = isDeleting;
+    }
+
 }
