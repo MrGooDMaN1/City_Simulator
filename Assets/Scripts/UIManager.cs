@@ -8,7 +8,6 @@ public class UIManager : MonoBehaviour
     public Button[] buildingButtons;
     public Building[] buildingPrefabs;
     private BuildingGrid buildingGrid;
-    //private bool isDeleting = false;
 
     private void Start()
     {
