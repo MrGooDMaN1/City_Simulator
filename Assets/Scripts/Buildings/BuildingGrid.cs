@@ -6,7 +6,8 @@ public class BuildingGrid : MonoBehaviour
     public Vector2Int GridSize = new Vector2Int(10, 10);
     public Building[] buildingPrefabs;
 
-    private Building[,] grid;
+    public Building[,] grid;
+
     private Building flyingBuilding;
     private Camera mainCamera;
     private bool _isDeleting = false;
@@ -15,8 +16,7 @@ public class BuildingGrid : MonoBehaviour
     {
         grid = new Building[GridSize.x, GridSize.y];
         mainCamera = Camera.main;
-
-        SaveManager.LoadBuildings(grid, buildingPrefabs, GridSize);
+        SaveBuildingsManager.LoadBuildings(grid, buildingPrefabs, GridSize);
     }
 
     private void Update()
@@ -51,7 +51,7 @@ public class BuildingGrid : MonoBehaviour
                 flyingBuilding.SetTransparent(available);
 
                 if (available && Input.GetMouseButtonDown(0))
-                    PlaceFlayingBuilding(x, y);
+                    PlaceFlyingBuilding(x, y);
             }
         }
     }
@@ -69,7 +69,7 @@ public class BuildingGrid : MonoBehaviour
         return false;
     }
 
-    private void PlaceFlayingBuilding(int placeX, int placeY)
+    private void PlaceFlyingBuilding(int placeX, int placeY)
     {
         flyingBuilding.SetNormal();
 
@@ -82,8 +82,7 @@ public class BuildingGrid : MonoBehaviour
         }
 
         flyingBuilding = null;
-
-        SaveManager.SaveBuildings(grid, buildingPrefabs, GridSize);
+        SaveBuildingsManager.SaveBuildings(grid, buildingPrefabs, GridSize);
     }
 
     public void StartPlacingBuilding(Building buildingPrefab)
@@ -98,11 +97,11 @@ public class BuildingGrid : MonoBehaviour
     private void TryDeleteBuilding()
     {
         Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
-        RaycastHit hit;
 
-        if (Physics.Raycast(ray, out hit))
+        if (Physics.Raycast(ray, out RaycastHit hit))
         {
             Building building = hit.collider.GetComponent<Building>();
+
             if (building != null)
             {
                 RemoveBuilding(building);
@@ -124,8 +123,7 @@ public class BuildingGrid : MonoBehaviour
             }
         }
         Destroy(building.gameObject);
-
-        SaveManager.SaveBuildings(grid, buildingPrefabs, GridSize);
+        SaveBuildingsManager.SaveBuildings(grid, buildingPrefabs, GridSize);
     }
 
     public void StartDeletingMode(bool isDeleting)

@@ -1,0 +1,16 @@
+{
+    "name": "UI",
+    "rootNamespace": "UI",
+    "references": [
+        "Buildings"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

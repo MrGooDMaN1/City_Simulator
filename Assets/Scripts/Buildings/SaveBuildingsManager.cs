@@ -1,17 +1,9 @@
+using System.Collections;
 using System.Collections.Generic;
-using System.IO;
 using UnityEngine;
 
-public static class SaveManager
+public class SaveBuildingsManager : MonoBehaviour
 {
-    private static string savePath = Path.Combine(Application.persistentDataPath, "buildings.json");
-
-    [System.Serializable]
-    public class BuildingSaveData
-    {
-        public List<BuildingData> buildings = new List<BuildingData>();
-    }
-
     public static void SaveBuildings(Building[,] grid, Building[] buildingPrefabs, Vector2Int gridSize)
     {
         List<BuildingData> buildingsData = new List<BuildingData>();
@@ -40,24 +32,20 @@ public static class SaveManager
             }
         }
 
-        string json = JsonUtility.ToJson(new BuildingSaveData { buildings = buildingsData }, true);
-        File.WriteAllText(savePath, json);
+        SaveManager.SaveBuildings(buildingsData);
     }
 
     public static void LoadBuildings(Building[,] grid, Building[] buildingPrefabs, Vector2Int gridSize)
     {
-        if (!File.Exists(savePath)) return;
+        List<BuildingData> buildingsData = SaveManager.LoadBuildings();
 
-        string json = File.ReadAllText(savePath);
-        BuildingSaveData data = JsonUtility.FromJson<BuildingSaveData>(json);
-
-        foreach (var buildingData in data.buildings)
+        foreach (var buildingData in buildingsData)
         {
             if (buildingData.prefabIndex < 0 || buildingData.prefabIndex >= buildingPrefabs.Length)
                 continue;
 
             Building prefab = buildingPrefabs[buildingData.prefabIndex];
-            Building newBuilding = Object.Instantiate(prefab, new Vector3(buildingData.x, 0, buildingData.y), Quaternion.identity);
+            Building newBuilding = Instantiate(prefab, new Vector3(buildingData.x, 0, buildingData.y), Quaternion.identity);
 
             for (int x = 0; x < newBuilding.Size.x; x++)
             {
