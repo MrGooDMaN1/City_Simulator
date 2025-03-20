@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.18028352, g: 0.22571376, b: 0.30692244, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -967,14 +967,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d90f70c172dd4254ebf27c7088905d15, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  placeButton: {fileID: 2121952281}
-  deleteButton: {fileID: 339471477}
-  buildingButtons:
+  _placeButton: {fileID: 2121952281}
+  _deleteButton: {fileID: 339471477}
+  _buildingButtons:
   - {fileID: 352919888}
   - {fileID: 558646463}
   - {fileID: 884250396}
   - {fileID: 1154923985}
-  buildingPrefabs:
+  _buildingPrefabs:
   - {fileID: 1653307018005816143, guid: 6be8e6c3be6885541ba01ba8b24f1d79, type: 3}
   - {fileID: 2937050543857710917, guid: 751512d1c5227b448a36e0ac682d6d65, type: 3}
   - {fileID: 4720991634579360012, guid: cd083d76cd52afb44804dbd905595387, type: 3}
@@ -1205,8 +1205,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2696f30acc09b8141b78d17e97b3f331, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GridSize: {x: 10, y: 10}
-  buildingPrefabs:
+  _gridSize: {x: 10, y: 10}
+  _buildingPrefabs:
   - {fileID: 1653307018005816143, guid: 6be8e6c3be6885541ba01ba8b24f1d79, type: 3}
   - {fileID: 2937050543857710917, guid: 751512d1c5227b448a36e0ac682d6d65, type: 3}
   - {fileID: 4720991634579360012, guid: cd083d76cd52afb44804dbd905595387, type: 3}

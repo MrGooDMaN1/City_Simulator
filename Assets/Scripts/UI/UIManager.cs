@@ -3,28 +3,30 @@ using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
-    public Button placeButton;
-    public Button deleteButton;
-    public Button[] buildingButtons;
-    public Building[] buildingPrefabs;
-    private BuildingGrid buildingGrid;
+    public Button _placeButton;
+    public Button _deleteButton;
+    public Button[] _buildingButtons;
+    public Building[] _buildingPrefabs;
+
+    private BuildingGrid _buildingGrid;
 
     private void Start()
     {
-        buildingGrid = FindObjectOfType<BuildingGrid>();
+        _buildingGrid = FindObjectOfType<BuildingGrid>();
 
-        for (int i = 0; i < buildingButtons.Length; i++)
+        for (int i = 0; i < _buildingButtons.Length; i++)
         {
             int index = i;
-            buildingButtons[i].onClick.AddListener(() => SelectBuilding(index));
+            _buildingButtons[i].onClick.AddListener(() => SelectBuilding(index));
         }
 
-        placeButton.onClick.AddListener(() => buildingGrid.StartDeletingMode(false));
-        deleteButton.onClick.AddListener(() => buildingGrid.StartDeletingMode(true));
+        
+        _placeButton.onClick.AddListener(() => _buildingGrid.StartDeletingMode(false));
+        _deleteButton.onClick.AddListener(() => _buildingGrid.StartDeletingMode(true));
     }
 
     private void SelectBuilding(int index)
     {
-        buildingGrid.StartPlacingBuilding(buildingPrefabs[index]);
+        _buildingGrid.StartPlacingBuilding(_buildingPrefabs[index]);
     }
 }

@@ -2,27 +2,27 @@ using UnityEngine;
 
 public class Building : MonoBehaviour
 {
-    public Vector2Int Size = Vector2Int.one;
-    public Renderer MainRender;
+    public Vector2Int _size = Vector2Int.one;
+    public Renderer _mainRender;
 
     public void SetTransparent(bool available)
     {
         if(available)
-            MainRender.material.color = Color.green;
+            _mainRender.material.color = Color.green;
         else
-            MainRender.material.color = Color.red;
+            _mainRender.material.color = Color.red;
     }
 
     public void SetNormal()
     {
-        MainRender.material.color = Color.white;
+        _mainRender.material.color = Color.white;
     }
 
     private void OnDrawGizmos()
     {
-        for (int x = 0; x < Size.x; x++)
+        for (int x = 0; x < _size.x; x++)
         {
-            for (int y = 0; y < Size.y; y++)
+            for (int y = 0; y < _size.y; y++)
             {
                 if ((x+y)%2  == 0) Gizmos.color = new Color(0.88f, 0f, 1f, 0.3f);
                 else Gizmos.color = new Color(1f, 0.69f, 1f, 0.3f);

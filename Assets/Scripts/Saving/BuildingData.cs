@@ -5,5 +5,5 @@ public class BuildingData
 {
     public int x;
     public int y;
-    public int prefabIndex;
+    public int _prefabIndex;
 }

@@ -4,14 +4,14 @@ using UnityEngine;
 
 public class SaveBuildingsManager : MonoBehaviour
 {
-    public static void SaveBuildings(Building[,] grid, Building[] buildingPrefabs, Vector2Int gridSize)
+    public static void SaveBuildings(Building[,] grid, Building[] buildingPrefabs, Vector2Int grid_size)
     {
         List<BuildingData> buildingsData = new List<BuildingData>();
         HashSet<Building> savedBuildings = new HashSet<Building>();
 
-        for (int x = 0; x < gridSize.x; x++)
+        for (int x = 0; x < grid_size.x; x++)
         {
-            for (int y = 0; y < gridSize.y; y++)
+            for (int y = 0; y < grid_size.y; y++)
             {
                 Building building = grid[x, y];
 
@@ -26,7 +26,7 @@ public class SaveBuildingsManager : MonoBehaviour
                     {
                         x = x,
                         y = y,
-                        prefabIndex = prefabIndex
+                        _prefabIndex = prefabIndex
                     });
                 }
             }
@@ -35,21 +35,21 @@ public class SaveBuildingsManager : MonoBehaviour
         SaveManager.SaveBuildings(buildingsData);
     }
 
-    public static void LoadBuildings(Building[,] grid, Building[] buildingPrefabs, Vector2Int gridSize)
+    public static void LoadBuildings(Building[,] grid, Building[] buildingPrefabs, Vector2Int grid_size)
     {
         List<BuildingData> buildingsData = SaveManager.LoadBuildings();
 
         foreach (var buildingData in buildingsData)
         {
-            if (buildingData.prefabIndex < 0 || buildingData.prefabIndex >= buildingPrefabs.Length)
+            if (buildingData._prefabIndex < 0 || buildingData._prefabIndex >= buildingPrefabs.Length)
                 continue;
 
-            Building prefab = buildingPrefabs[buildingData.prefabIndex];
+            Building prefab = buildingPrefabs[buildingData._prefabIndex];
             Building newBuilding = Instantiate(prefab, new Vector3(buildingData.x, 0, buildingData.y), Quaternion.identity);
 
-            for (int x = 0; x < newBuilding.Size.x; x++)
+            for (int x = 0; x < newBuilding._size.x; x++)
             {
-                for (int y = 0; y < newBuilding.Size.y; y++)
+                for (int y = 0; y < newBuilding._size.y; y++)
                 {
                     grid[buildingData.x + x, buildingData.y + y] = newBuilding;
                 }

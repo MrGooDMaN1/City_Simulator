@@ -3,20 +3,20 @@ using UnityEngine;
 
 public class BuildingGrid : MonoBehaviour
 {
-    public Vector2Int GridSize = new Vector2Int(10, 10);
-    public Building[] buildingPrefabs;
+    public Vector2Int _gridSize = new Vector2Int(10, 10);
+    public Building[] _buildingPrefabs;
 
-    public Building[,] grid;
+    public Building[,] _grid;
 
-    private Building flyingBuilding;
-    private Camera mainCamera;
+    private Building _flyingBuilding;
+    private Camera _mainCamera;
     private bool _isDeleting = false;
 
     private void Awake()
     {
-        grid = new Building[GridSize.x, GridSize.y];
-        mainCamera = Camera.main;
-        SaveBuildingsManager.LoadBuildings(grid, buildingPrefabs, GridSize);
+        _grid = new Building[_gridSize.x, _gridSize.y];
+        _mainCamera = Camera.main;
+        SaveBuildingsManager.LoadBuildings(_grid, _buildingPrefabs, _gridSize);
     }
 
     private void Update()
@@ -26,10 +26,10 @@ public class BuildingGrid : MonoBehaviour
             TryDeleteBuilding();
         }
 
-        if (flyingBuilding != null)
+        if (_flyingBuilding != null)
         {
             var groundPlane = new Plane(Vector3.up, Vector3.zero);
-            Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
+            Ray ray = _mainCamera.ScreenPointToRay(Input.mousePosition);
 
             if (groundPlane.Raycast(ray, out float position))
             {
@@ -39,16 +39,16 @@ public class BuildingGrid : MonoBehaviour
 
                 bool available = true;
 
-                if (x < 0 || x > GridSize.x - flyingBuilding.Size.x)
+                if (x < 0 || x > _gridSize.x - _flyingBuilding._size.x)
                     available = false;
-                if (y < 0 || y > GridSize.y - flyingBuilding.Size.y)
+                if (y < 0 || y > _gridSize.y - _flyingBuilding._size.y)
                     available = false;
 
                 if (available && IsPlaceTaken(x, y))
                     available = false;
 
-                flyingBuilding.transform.position = new Vector3(x, 0, y);
-                flyingBuilding.SetTransparent(available);
+                _flyingBuilding.transform.position = new Vector3(x, 0, y);
+                _flyingBuilding.SetTransparent(available);
 
                 if (available && Input.GetMouseButtonDown(0))
                     PlaceFlyingBuilding(x, y);
@@ -58,11 +58,11 @@ public class BuildingGrid : MonoBehaviour
 
     private bool IsPlaceTaken(int placeX, int placeY)
     {
-        for (int x = 0; x < flyingBuilding.Size.x; x++)
+        for (int x = 0; x < _flyingBuilding._size.x; x++)
         {
-            for (int y = 0; y < flyingBuilding.Size.y; y++)
+            for (int y = 0; y < _flyingBuilding._size.y; y++)
             {
-                if (grid[placeX + x, placeY + y] != null)
+                if (_grid[placeX + x, placeY + y] != null)
                     return true;
             }
         }
@@ -71,32 +71,32 @@ public class BuildingGrid : MonoBehaviour
 
     private void PlaceFlyingBuilding(int placeX, int placeY)
     {
-        flyingBuilding.SetNormal();
+        _flyingBuilding.SetNormal();
 
-        for (int x = 0; x < flyingBuilding.Size.x; x++)
+        for (int x = 0; x < _flyingBuilding._size.x; x++)
         {
-            for (int y = 0; y < flyingBuilding.Size.y; y++)
+            for (int y = 0; y < _flyingBuilding._size.y; y++)
             {
-                grid[placeX + x, placeY + y] = flyingBuilding;
+                _grid[placeX + x, placeY + y] = _flyingBuilding;
             }
         }
 
-        flyingBuilding = null;
-        SaveBuildingsManager.SaveBuildings(grid, buildingPrefabs, GridSize);
+        _flyingBuilding = null;
+        SaveBuildingsManager.SaveBuildings(_grid, _buildingPrefabs, _gridSize);
     }
 
     public void StartPlacingBuilding(Building buildingPrefab)
     {
-        if (flyingBuilding != null)
-            Destroy(flyingBuilding.gameObject);
+        if (_flyingBuilding != null)
+            Destroy(_flyingBuilding.gameObject);
 
-        flyingBuilding = Instantiate(buildingPrefab);
-        flyingBuilding.name = buildingPrefab.name;
+        _flyingBuilding = Instantiate(buildingPrefab);
+        _flyingBuilding.name = buildingPrefab.name;
     }
 
     private void TryDeleteBuilding()
     {
-        Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
+        Ray ray = _mainCamera.ScreenPointToRay(Input.mousePosition);
 
         if (Physics.Raycast(ray, out RaycastHit hit))
         {
@@ -115,15 +115,15 @@ public class BuildingGrid : MonoBehaviour
         int x = Mathf.RoundToInt(pos.x);
         int y = Mathf.RoundToInt(pos.z);
 
-        for (int i = 0; i < building.Size.x; i++)
+        for (int i = 0; i < building._size.x; i++)
         {
-            for (int j = 0; j < building.Size.y; j++)
+            for (int j = 0; j < building._size.y; j++)
             {
-                grid[x + i, y + j] = null;
+                _grid[x + i, y + j] = null;
             }
         }
         Destroy(building.gameObject);
-        SaveBuildingsManager.SaveBuildings(grid, buildingPrefabs, GridSize);
+        SaveBuildingsManager.SaveBuildings(_grid, _buildingPrefabs, _gridSize);
     }
 
     public void StartDeletingMode(bool isDeleting)

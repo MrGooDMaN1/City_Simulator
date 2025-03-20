@@ -4,25 +4,25 @@ using UnityEngine;
 
 public static class SaveManager
 {
-    private static string savePath = Path.Combine(Application.persistentDataPath, "buildings.json");
+    private static string _savePath = Path.Combine(Application.persistentDataPath, "_buildings.json");
 
     [System.Serializable]
     public class BuildingSaveData
     {
-        public List<BuildingData> buildings = new List<BuildingData>();
+        public List<BuildingData> _buildings = new List<BuildingData>();
     }
 
-    public static void SaveBuildings(List<BuildingData> buildingsData)
+    public static void SaveBuildings(List<BuildingData> _buildingsData)
     {
-        string json = JsonUtility.ToJson(new BuildingSaveData { buildings = buildingsData }, true);
-        File.WriteAllText(savePath, json);
+        string json = JsonUtility.ToJson(new BuildingSaveData { _buildings = _buildingsData }, true);
+        File.WriteAllText(_savePath, json);
     }
 
     public static List<BuildingData> LoadBuildings()
     {
-        if (!File.Exists(savePath)) return new List<BuildingData>();
+        if (!File.Exists(_savePath)) return new List<BuildingData>();
 
-        string json = File.ReadAllText(savePath);
-        return JsonUtility.FromJson<BuildingSaveData>(json).buildings;
+        string json = File.ReadAllText(_savePath);
+        return JsonUtility.FromJson<BuildingSaveData>(json)._buildings;
     }
 }

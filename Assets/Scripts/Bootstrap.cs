@@ -23,7 +23,7 @@ public class Bootstrap : MonoBehaviour
 
     private void Initialize()
     {
-        SaveBuildingsManager.LoadBuildings(_buildingGrid.grid, _buildingPrefabs, _buildingGrid.GridSize);
+        SaveBuildingsManager.LoadBuildings(_buildingGrid._grid, _buildingPrefabs, _buildingGrid._gridSize);
     }
 }
 
