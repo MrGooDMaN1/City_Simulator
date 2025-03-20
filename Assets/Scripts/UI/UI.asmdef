@@ -1,8 +1,8 @@
 {
     "name": "UI",
-    "rootNamespace": "UI",
+    "rootNamespace": "",
     "references": [
-        "Buildings"
+        "GUID:8e3dba3439a5c9b4e95d1e87d4e5ee82"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

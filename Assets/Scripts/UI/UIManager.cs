@@ -9,6 +9,7 @@ public class UIManager : MonoBehaviour
     public Building[] _buildingPrefabs;
 
     private BuildingGrid _buildingGrid;
+    private Building _selectedBuildingPrefab; // Активный префаб
 
     private void Start()
     {
@@ -20,13 +21,20 @@ public class UIManager : MonoBehaviour
             _buildingButtons[i].onClick.AddListener(() => SelectBuilding(index));
         }
 
-        
-        _placeButton.onClick.AddListener(() => _buildingGrid.StartDeletingMode(false));
+        _placeButton.onClick.AddListener(StartPlacingSelectedBuilding);
         _deleteButton.onClick.AddListener(() => _buildingGrid.StartDeletingMode(true));
     }
 
     private void SelectBuilding(int index)
     {
-        _buildingGrid.StartPlacingBuilding(_buildingPrefabs[index]);
+        _selectedBuildingPrefab = _buildingPrefabs[index];
+    }
+
+    private void StartPlacingSelectedBuilding()
+    {
+        if (_selectedBuildingPrefab != null)
+        {
+            _buildingGrid.StartPlacingBuilding(_selectedBuildingPrefab);
+        }
     }
 }
