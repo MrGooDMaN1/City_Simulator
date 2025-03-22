@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class BuildingGrid : MonoBehaviour
 {
@@ -25,23 +26,13 @@ public class BuildingGrid : MonoBehaviour
         if (_isPlacing && _flyingBuilding != null)
         {
             MoveBuildingWithCursor();
-
-            if (Input.GetMouseButtonDown(0))
-            {
-                TryPlaceBuilding();
-            }
-        }
-
-        if (_isDeleting && Input.GetMouseButtonDown(0))
-        {
-            TryDeleteBuilding();
         }
     }
 
     private void MoveBuildingWithCursor()
     {
         Plane groundPlane = new Plane(Vector3.up, Vector3.zero);
-        Ray ray = _mainCamera.ScreenPointToRay(Input.mousePosition);
+        Ray ray = _mainCamera.ScreenPointToRay(Mouse.current.position.ReadValue());
 
         if (groundPlane.Raycast(ray, out float distance))
         {
@@ -50,7 +41,6 @@ public class BuildingGrid : MonoBehaviour
             int y = Mathf.RoundToInt(worldPosition.z);
 
             bool available = IsPositionValid(x, y);
-
             _flyingBuilding.transform.position = new Vector3(x, 0, y);
             _flyingBuilding.SetTransparent(available);
         }
@@ -77,8 +67,10 @@ public class BuildingGrid : MonoBehaviour
         return false;
     }
 
-    private void TryPlaceBuilding()
+    public void TryPlaceBuilding()
     {
+        if (!_isPlacing || _flyingBuilding == null) return;
+
         Vector3 pos = _flyingBuilding.transform.position;
         int x = Mathf.RoundToInt(pos.x);
         int y = Mathf.RoundToInt(pos.z);
@@ -106,9 +98,11 @@ public class BuildingGrid : MonoBehaviour
         SaveBuildingsManager.SaveBuildings(_grid, _buildingPrefabs, _gridSize);
     }
 
-    private void TryDeleteBuilding()
+    public void TryDeleteBuilding()
     {
-        Ray ray = _mainCamera.ScreenPointToRay(Input.mousePosition);
+        if (!_isDeleting) return;
+
+        Ray ray = _mainCamera.ScreenPointToRay(Mouse.current.position.ReadValue());
 
         if (Physics.Raycast(ray, out RaycastHit hit))
         {
@@ -146,7 +140,7 @@ public class BuildingGrid : MonoBehaviour
         _flyingBuilding = Instantiate(buildingPrefab);
         _flyingBuilding.name = buildingPrefab.name;
         _isPlacing = true;
-        _isDeleting = false; // Отключаем режим удаления
+        _isDeleting = false;
     }
 
     public void StartDeletingMode(bool isDeleting)

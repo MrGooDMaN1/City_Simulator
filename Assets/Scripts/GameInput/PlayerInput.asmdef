@@ -1,9 +1,9 @@
 {
-    "name": "Buildings",
+    "name": "PlayerInput",
     "rootNamespace": "",
     "references": [
-        "Saving",
-        "Unity.InputSystem"
+        "GUID:75469ad4d38634e559750d17036d5f7c",
+        "GUID:8e3dba3439a5c9b4e95d1e87d4e5ee82"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

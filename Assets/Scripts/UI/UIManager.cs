@@ -9,7 +9,7 @@ public class UIManager : MonoBehaviour
     public Building[] _buildingPrefabs;
 
     private BuildingGrid _buildingGrid;
-    private Building _selectedBuildingPrefab; // Активный префаб
+    private Building _selectedBuildingPrefab; // Выбранный префаб здания
 
     private void Start()
     {
@@ -27,7 +27,7 @@ public class UIManager : MonoBehaviour
 
     private void SelectBuilding(int index)
     {
-        _selectedBuildingPrefab = _buildingPrefabs[index];
+        _selectedBuildingPrefab = _buildingPrefabs[index]; // Запоминаем выбранное здание
     }
 
     private void StartPlacingSelectedBuilding()
