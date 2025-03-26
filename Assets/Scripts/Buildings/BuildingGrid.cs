@@ -5,16 +5,18 @@ using UnityEngine.InputSystem;
 public class BuildingGrid : MonoBehaviour
 {
     public Vector2Int _gridSize = new Vector2Int(10, 10);
-    public Building[] _buildingPrefabs;
     public Building[,] _grid;
 
+    private Building[] _buildingPrefabs;
     private Building _flyingBuilding;
     private Camera _mainCamera;
     private bool _isPlacing = false;
     private bool _isDeleting = false;
 
+
     private void Awake()
     {
+        _buildingPrefabs = PrefabsManager.Instance.GetPrefabs();
         _grid = new Building[_gridSize.x, _gridSize.y];
         _mainCamera = Camera.main;
 

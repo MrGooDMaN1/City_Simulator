@@ -6,13 +6,14 @@ public class UIManager : MonoBehaviour
     public Button _placeButton;
     public Button _deleteButton;
     public Button[] _buildingButtons;
-    public Building[] _buildingPrefabs;
 
+    private Building[] _buildingPrefabs;
     private BuildingGrid _buildingGrid;
     private Building _selectedBuildingPrefab; // Выбранный префаб здания
 
     private void Start()
     {
+        _buildingPrefabs = PrefabsManager.Instance.GetPrefabs();
         _buildingGrid = FindObjectOfType<BuildingGrid>();
 
         for (int i = 0; i < _buildingButtons.Length; i++)
