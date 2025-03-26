@@ -3,12 +3,21 @@ using UnityEngine;
 public class Bootstrap : MonoBehaviour
 {
     public static Bootstrap Instance { get; private set; }
+    public BuildingGrid buildingGrid { get; private set; }
+    public UIManager UIManager { get; private set; }
+    public InputManager inputManager { get; private set; }
+    public PrefabsManager prefabsManager { get; private set; }
 
-    [SerializeField] private BuildingGrid _buildingGrid;
-    [SerializeField] private Building[] _buildingPrefabs;
+    private Building[] buildingPrefabs;
 
     private void Awake()
     {
+        buildingGrid = GetComponent<BuildingGrid>();
+        UIManager = GetComponent<UIManager>();
+        inputManager = GetComponent<InputManager>();
+        prefabsManager = GetComponent<PrefabsManager>();
+
+
         if (Instance == null)
         {
             Instance = this;
@@ -21,9 +30,10 @@ public class Bootstrap : MonoBehaviour
         }
     }
 
+
     private void Initialize()
     {
-        SaveBuildingsManager.LoadBuildings(_buildingGrid._grid, _buildingPrefabs, _buildingGrid._gridSize);
+        SaveBuildingsManager.LoadBuildings(buildingGrid._grid, buildingPrefabs, buildingGrid._gridSize);
     }
 }
 
