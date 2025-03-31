@@ -5,12 +5,6 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
-    path: Assets/Scenes/EnterPointBootstrap.unity
-    guid: 5f1cedcc49192bb4782041b0fdf76ad7
-  - enabled: 0
-    path: Assets/Scenes/Menu.unity
-    guid: 29d2e78f07f1c23469011252f5e30311
   - enabled: 1
     path: Assets/Scenes/Game.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
