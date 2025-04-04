@@ -7,15 +7,15 @@ public class Building : MonoBehaviour
 
     public void SetTransparent(bool available)
     {
-        if(available)
-            _mainRender.material.color = Color.green;
+        if (available)
+            SetColor(Color.green);
         else
-            _mainRender.material.color = Color.red;
+            SetColor(Color.red);
     }
 
-    public void SetNormal()
+    public void SetColor(Color color)
     {
-        _mainRender.material.color = Color.white;
+        _mainRender.material.color = color;
     }
 
     private void OnDrawGizmos()

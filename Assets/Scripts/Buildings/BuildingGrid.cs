@@ -12,6 +12,7 @@ public class BuildingGrid : MonoBehaviour
     private Camera _mainCamera;
     private bool _isPlacing = false;
     private bool _isDeleting = false;
+    private Building _highlightedBuilding;
 
 
     private void Awake()
@@ -28,6 +29,10 @@ public class BuildingGrid : MonoBehaviour
         if (_isPlacing && _flyingBuilding != null)
         {
             MoveBuildingWithCursor();
+        }
+        if (_isDeleting)
+        {
+            HighlightBuildingForDeletion();
         }
     }
 
@@ -85,7 +90,7 @@ public class BuildingGrid : MonoBehaviour
 
     private void PlaceBuilding(int x, int y)
     {
-        _flyingBuilding.SetNormal();
+        _flyingBuilding.SetColor(Color.white);
 
         for (int i = 0; i < _flyingBuilding._size.x; i++)
         {
@@ -109,6 +114,7 @@ public class BuildingGrid : MonoBehaviour
         if (Physics.Raycast(ray, out RaycastHit hit))
         {
             Building building = hit.collider.GetComponent<Building>();
+            //_flyingBuilding.SetColor(Color.red);
 
             if (building != null)
             {
@@ -134,6 +140,40 @@ public class BuildingGrid : MonoBehaviour
         SaveBuildingsManager.SaveBuildings(_grid, _buildingPrefabs, _gridSize);
     }
 
+    private void HighlightBuildingForDeletion()
+    {
+        Ray ray = _mainCamera.ScreenPointToRay(Mouse.current.position.ReadValue());
+
+        if (Physics.Raycast(ray, out RaycastHit hit))
+        {
+            Building building = hit.collider.GetComponent<Building>();
+
+            if (building != null)
+            {
+                if (_highlightedBuilding != building)
+                {
+                    ResetHighlightedBuilding(); // Сбрасываем предыдущее выделенное здание
+                    _highlightedBuilding = building;
+                    _highlightedBuilding.SetColor(Color.red); // Красим здание в красный
+                }
+                return;
+            }
+        }
+
+
+        // Если курсор ушёл с объекта, сбрасываем подсветку
+        ResetHighlightedBuilding();
+    }
+
+    private void ResetHighlightedBuilding()
+    {
+        if (_highlightedBuilding != null)
+        {
+            _highlightedBuilding.SetColor(Color.white); // Вернуть нормальный цвет
+            _highlightedBuilding = null;
+        }
+    }
+
     public void StartPlacingBuilding(Building buildingPrefab)
     {
         if (_flyingBuilding != null)
@@ -148,6 +188,7 @@ public class BuildingGrid : MonoBehaviour
     public void StartDeletingMode(bool isDeleting)
     {
         _isDeleting = isDeleting;
-        _isPlacing = false; // Отключаем режим размещения
+        _isPlacing = false;
+        ResetHighlightedBuilding(); // Сбросить подсветку при выходе из режима
     }
 }
