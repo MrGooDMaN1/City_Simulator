@@ -32,7 +32,7 @@ public class WalletManager : MonoBehaviour
     {
         if (_model.Balance >= value)
         {
-            _presenter.Sub(_model.Balance);
+            _presenter.Sub(value);
             return true;
         }
         else
