@@ -5,6 +5,8 @@ public class Building : MonoBehaviour
     public Vector2Int _size = Vector2Int.one;
     public Renderer _mainRender;
 
+    [Min(0)] public int Cost = 100; // Стоимость здания
+
     public void SetTransparent(bool available)
     {
         if (available)

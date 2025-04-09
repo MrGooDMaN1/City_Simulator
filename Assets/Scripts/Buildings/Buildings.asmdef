@@ -3,7 +3,8 @@
     "rootNamespace": "",
     "references": [
         "Saving",
-        "Unity.InputSystem"
+        "Unity.InputSystem",
+        "Wallet"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

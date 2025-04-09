@@ -14,7 +14,6 @@ public class BuildingGrid : MonoBehaviour
     private bool _isDeleting = false;
     private Building _highlightedBuilding;
 
-
     private void Awake()
     {
         _buildingPrefabs = PrefabsManager.Instance.GetPrefabs();
@@ -84,7 +83,15 @@ public class BuildingGrid : MonoBehaviour
 
         if (IsPositionValid(x, y))
         {
-            PlaceBuilding(x, y);
+            int cost = _flyingBuilding.Cost;
+            if (WalletManager.Instance.TrySub(cost))
+            {
+                PlaceBuilding(x, y);
+            }
+            else
+            {
+                Debug.Log("Недостаточно средств!");
+            }
         }
     }
 
@@ -100,8 +107,15 @@ public class BuildingGrid : MonoBehaviour
             }
         }
 
+        var incomeGen = _flyingBuilding.GetComponent<WalletIncomeGenerator>();
+        if (incomeGen != null)
+        {
+            incomeGen.EnableIncome();
+        }
+
         _flyingBuilding = null;
         _isPlacing = false;
+
         SaveBuildingsManager.SaveBuildings(_grid, _buildingPrefabs, _gridSize);
     }
 
@@ -114,7 +128,6 @@ public class BuildingGrid : MonoBehaviour
         if (Physics.Raycast(ray, out RaycastHit hit))
         {
             Building building = hit.collider.GetComponent<Building>();
-            //_flyingBuilding.SetColor(Color.red);
 
             if (building != null)
             {
@@ -136,6 +149,10 @@ public class BuildingGrid : MonoBehaviour
                 _grid[x + i, y + j] = null;
             }
         }
+
+        int refund = building.Cost / 2;
+        WalletManager.Instance.AddMoney(refund);
+
         Destroy(building.gameObject);
         SaveBuildingsManager.SaveBuildings(_grid, _buildingPrefabs, _gridSize);
     }
