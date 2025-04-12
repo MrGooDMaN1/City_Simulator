@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Unity.VisualScripting.YamlDotNet.Core.Tokens;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -21,6 +22,8 @@ public class BuildingGrid : MonoBehaviour
         _mainCamera = Camera.main;
 
         SaveBuildingsManager.LoadBuildings(_grid, _buildingPrefabs, _gridSize);
+
+        EnableAllIncomeGenerators();
     }
 
     private void Update()
@@ -108,6 +111,7 @@ public class BuildingGrid : MonoBehaviour
         }
 
         var incomeGen = _flyingBuilding.GetComponent<WalletIncomeGenerator>();
+        Debug.Log($"{incomeGen}");
         if (incomeGen != null)
         {
             incomeGen.EnableIncome();
@@ -208,4 +212,24 @@ public class BuildingGrid : MonoBehaviour
         _isPlacing = false;
         ResetHighlightedBuilding(); // Сбросить подсветку при выходе из режима
     }
+
+    private void EnableAllIncomeGenerators()
+    {
+        for (int x = 0; x < _gridSize.x; x++)
+        {
+            for (int y = 0; y < _gridSize.y; y++)
+            {
+                Building building = _grid[x, y];
+                if (building != null)
+                {
+                    var generator = building.GetComponent<WalletIncomeGenerator>();
+                    if (generator != null)
+                    {
+                        generator.EnableIncome();
+                    }
+                }
+            }
+        }
+    }
+
 }

@@ -8,8 +8,8 @@ public class WalletIncomeGenerator : MonoBehaviour
 
     private void Start()
     {
-        InvokeRepeating(nameof(GenerateIncome), _interval, _interval);
-        Debug.Log("Делаем денюшку");
+        //InvokeRepeating(nameof(GenerateIncome), _interval, _interval);
+        //Debug.Log("Делаем денюшку");
     }
 
     public void EnableIncome()
