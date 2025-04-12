@@ -8,6 +8,8 @@ public class WalletManager : MonoBehaviour
     private WalletView _view;
     private WalletPresenter _presenter;
 
+    private int _savedBalance;
+
     private void Awake()
     {
         if (Instance != null)
@@ -21,11 +23,15 @@ public class WalletManager : MonoBehaviour
         _model = new WalletModel();
         _view = FindObjectOfType<WalletView>();
         _presenter = new WalletPresenter(_model, _view);
+
+        _savedBalance = SaveManager.LoadWalletBalance();
+        SetBalance(_savedBalance);
     }
 
     public void AddMoney(int value)
     {
         _presenter.Add(value);
+        SaveManager.SaveWalletBalance(_model.Balance);
     }
 
     public bool TrySub(int value)
@@ -33,10 +39,22 @@ public class WalletManager : MonoBehaviour
         if (_model.Balance >= value)
         {
             _presenter.Sub(value);
+            SaveManager.SaveWalletBalance(_model.Balance);
             return true;
         }
         else
             return false;
+    }
+
+    public int GetBalance()
+    {
+        return _model.Balance;
+    }
+
+    public void SetBalance(int amount)
+    {
+        _model.Set(amount);
+        _view.UpdateBalance(_model.Balance);
     }
 
 }
