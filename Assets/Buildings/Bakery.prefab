@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 4720991634579360012}
   - component: {fileID: 825571314594966263}
   - component: {fileID: 5548653527562444257}
+  - component: {fileID: 6518468150486466829}
   m_Layer: 0
   m_Name: Bakery
   m_TagString: Buildings
@@ -84,8 +85,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e323526f33b3a114fab4b107d8b60614, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _interval: 3
+  _interval: 5
   _incomePerTick: 15
+--- !u!114 &6518468150486466829
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1419578182398726115}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09ec3cbeab15fab429106bd357774ec6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Icon: {fileID: 21300000, guid: 19575cb0a78b81a4a972af5f78f8ea9e, type: 3}
+  Cost: 100
+  IncomePerTick: 15
+  Interval: 5
 --- !u!1001 &5179920244086285132
 PrefabInstance:
   m_ObjectHideFlags: 0
