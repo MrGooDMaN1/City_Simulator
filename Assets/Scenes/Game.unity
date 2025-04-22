@@ -1782,10 +1782,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d90f70c172dd4254ebf27c7088905d15, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _previewPanel: {fileID: 59128276}
-  _previewImage: {fileID: 793124340}
-  _costText: {fileID: 401934023}
-  _incomeText: {fileID: 1749972843}
   _placeButton: {fileID: 2121952281}
   _deleteButton: {fileID: 339471477}
   _buildingButtons:
@@ -1793,6 +1789,10 @@ MonoBehaviour:
   - {fileID: 558646463}
   - {fileID: 884250396}
   - {fileID: 1154923985}
+  _buildingPreviewPanel: {fileID: 59128276}
+  _buildingImage: {fileID: 793124340}
+  _incomeText: {fileID: 1749972843}
+  _costText: {fileID: 401934023}
 --- !u!4 &1437187428
 Transform:
   m_ObjectHideFlags: 0

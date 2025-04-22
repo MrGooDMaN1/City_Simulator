@@ -3,19 +3,18 @@ using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
-    [Header("Preview UI")]
-    public GameObject _previewPanel;
-    public Image _previewImage;
-    public Text _costText;
-    public Text _incomeText;
-
     public Button _placeButton;
     public Button _deleteButton;
     public Button[] _buildingButtons;
 
+    public GameObject _buildingPreviewPanel;
+    public Image _buildingImage;
+    public Text _incomeText;
+    public Text _costText;
+
     private Building[] _buildingPrefabs;
     private BuildingGrid _buildingGrid;
-    private Building _selectedBuildingPrefab; // Выбранный префаб здания
+    private Building _selectedBuildingPrefab;
 
     private void Start()
     {
@@ -26,19 +25,22 @@ public class UIManager : MonoBehaviour
         {
             int index = i;
             _buildingButtons[i].onClick.AddListener(() => SelectBuilding(index));
-            var trigger = _buildingButtons[i].gameObject.AddComponent<UnityEngine.EventSystems.EventTrigger>();
-
-            AddTrigger(trigger, UnityEngine.EventSystems.EventTriggerType.PointerEnter, () => ShowPreview(index));
-            AddTrigger(trigger, UnityEngine.EventSystems.EventTriggerType.PointerExit, HidePreview);
         }
 
         _placeButton.onClick.AddListener(StartPlacingSelectedBuilding);
-        _deleteButton.onClick.AddListener(() => _buildingGrid.StartDeletingMode(true));
+        _deleteButton.onClick.AddListener(() =>
+        {
+            _buildingGrid.StartDeletingMode(true);
+            _buildingPreviewPanel.SetActive(false);
+        });
+
+        _buildingPreviewPanel.SetActive(false); // изначально скрыта
     }
 
     private void SelectBuilding(int index)
     {
-        _selectedBuildingPrefab = _buildingPrefabs[index]; // Запоминаем выбранное здание
+        _selectedBuildingPrefab = _buildingPrefabs[index];
+        ShowPreview(index);
     }
 
     private void StartPlacingSelectedBuilding()
@@ -46,30 +48,19 @@ public class UIManager : MonoBehaviour
         if (_selectedBuildingPrefab != null)
         {
             _buildingGrid.StartPlacingBuilding(_selectedBuildingPrefab);
+            _buildingPreviewPanel.SetActive(false); // скрываем панель
         }
     }
 
     private void ShowPreview(int index)
     {
         BuildingInfo info = _buildingPrefabs[index].Info;
-        if (info == null) return;
-
-        _previewImage.sprite = info.Icon;
-        _costText.text = $"Стоимость: {info.Cost}";
-        _incomeText.text = $"Доход: {info.IncomePerTick} / {info.Interval} сек";
-        _previewPanel.SetActive(true);
+        if (info != null)
+        {
+            _buildingImage.sprite = info.Icon;
+            _costText.text = $"Стоимость: {info.Cost}";
+            _incomeText.text = $"Доход: {info.IncomePerTick}/сек";
+            _buildingPreviewPanel.SetActive(true);
+        }
     }
-
-    private void HidePreview()
-    {
-        _previewPanel.SetActive(false);
-    }
-
-    private void AddTrigger(UnityEngine.EventSystems.EventTrigger trigger, UnityEngine.EventSystems.EventTriggerType eventType, System.Action action)
-    {
-        var entry = new UnityEngine.EventSystems.EventTrigger.Entry { eventID = eventType };
-        entry.callback.AddListener(_ => action());
-        trigger.triggers.Add(entry);
-    }
-
 }
